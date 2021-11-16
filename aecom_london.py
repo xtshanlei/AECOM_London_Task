@@ -5,6 +5,7 @@ import streamlit as st
 
 st.title('London Fire Station Project - AECOM')
 df = pd.read_csv('london.csv')
+st.write(df)
 
 ####################Simulation#######################
 
