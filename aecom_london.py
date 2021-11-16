@@ -14,7 +14,7 @@ def convert_add(add):
 
 st.title('London Fire Station Project - AECOM')
 clean_df = pd.read_csv('london.csv')
-
+clean_df['date']= clean_df['DateAndTimeMobilised'].dt.date
 ####################Visualisation#######################
 # Anually
 annual_incidents_per_station= clean_df.groupby(['DeployedFromStation_Name','CalYear']).nunique()['IncidentNumber'].reset_index() # Average number of incidents for each station for each year
@@ -40,7 +40,7 @@ fig = px.density_mapbox(avg_annual_incidents_per_station, lat='lat', lon='lon', 
 st.plotly_chart(fig)
 
 # Hourly
-hour_incidents_per_station = clean_df.groupby(['DeployedFromStation_Name','HourOfCall']).count()
+hour_incidents_per_station = clean_df.groupby(['DeployedFromStation_Name','date','HourOfCall']).count()
 avg_hourly_incidents_per_station = hour_incidents_per_station.groupby(['DeployedFromStation_Name','HourOfCall']).mean()['IncidentNumber'].reset_index()
 hour_lat_list = []
 hour_lon_list = []
@@ -59,7 +59,7 @@ hour_fig = px.density_mapbox(avg_hourly_incidents_per_station, lat='lat', lon='l
                         animation_frame='HourOfCall')
 st.plotly_chart(hour_fig)
 ####################Simulation#######################
-def generate_attendence_time(station): # Generate random attendence time based on historical data
+'''def generate_attendence_time(station): # Generate random attendence time based on historical data
   mu,sigma = clean_df[clean_df['DeployedFromStation_Name']==station]['AttendanceTimeSeconds'].describe()['mean'],clean_df[clean_df['DeployedFromStation_Name']==station]['AttendanceTimeSeconds'].describe()['std']
   return abs(np.random.normal(mu, sigma, 1))
 
