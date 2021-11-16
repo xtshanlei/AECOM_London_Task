@@ -43,7 +43,7 @@ fig = px.density_mapbox(avg_annual_incidents_per_station, lat='lat', lon='lon', 
                         labels = {'IncidentNumber':'No.of Incidents'},range_color=[0,5000])
 st.plotly_chart(fig)
 
-top_fig = px.bar(avg_annual_incidents_per_station, x="IncidentNumber", y="DeployedFromStation_Name", orientation='h')
+top_fig = px.bar(avg_annual_incidents_per_station.sort_values(by='IncidentNumber')[:5], x="IncidentNumber", y="DeployedFromStation_Name", orientation='h')
 st.plotly_chart(top_fig)
 # Hourly
 st.header('Hourly Average Number of Fire Incidents for Each Station')
