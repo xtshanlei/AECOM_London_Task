@@ -28,7 +28,7 @@ st.header('Relationship between number of fire engines, number of fire incidents
 st.write('This section shows the 3-dimension relationship between the number of fire engines,the number of fire incidents and average wait time. Our goal here is to control the average waiting time.')
 st.markdown('The average wait time of all stations is **{} minutes**, the minimun wait time is **{} minute**, and the maximum wait time is **{} minutes**. '.format(int(station_df['wait_time'].mean()/60),int(station_df['wait_time'].min()),int(station_df['wait_time'].max()/60)))
 station_df['wait_time']=clean_df.groupby(['DeployedFromStation_Name','date']).mean().reset_index()['wait_time']
-relationship_fig = px.scatter_3d(station_df, x="IncidentNumber", y="Resource_Code", z="wait_time",labels={'IncidentNumber':'Number of Incidents','Resource_Code':'Number of Engines','wait_time':'Average Wait Time'},color='DeployedFromStation_Name')
+relationship_fig = px.scatter_3d(station_df, x="IncidentNumber", y="Resource_Code", z="wait_time",labels={'IncidentNumber':'Number of Incidents','Resource_Code':'Number of Engines','wait_time':'Average Wait Time (Seconds)'},color='DeployedFromStation_Name')
 st.plotly_chart(relationship_fig)
 ####################Highest risk of fire#######################
 # Anually
