@@ -37,13 +37,12 @@ class Station(object): # Define the fire station class
 def Dealing_with_Fire(env, fire_incident, station): # Dealing with the fire incident for each station based on the attendence time
   # Fire incidents occurs
   occur_time = env.now
-  st.write('Fire occurs at {} hour'.format(occur_time/60))
   with station.engines.request() as request:
     yield request
     yield env.process(station.mobilisation(fire_incident))
   # Fire turned out
   wait_times.append(float(env.now - occur_time))
-  st.write('Fire turned out at {} hour, the whole process took {} minutes'.format(env.now/60,float(env.now - occur_time)))
+  
 
 def run_station(env, num_engines, station_name): # Define the station running
   station = Station(env, num_engines, station_name)
