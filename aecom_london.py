@@ -69,5 +69,5 @@ station = st.selectbox('Please select the fire station you want to simulate',(cl
 num_engines= st.slider('Please choose the number of fire engines',1,50,1)
 # Run the simulation
 env = simpy.Environment()
-env.process(run_station(env, num_engines,'Soho'))
+env.process(run_station(env, num_engines,station))
 env.run(until=60*24*7)
