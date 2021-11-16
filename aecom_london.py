@@ -16,8 +16,11 @@ def convert_add(add):
 
 st.title('London Fire Station Project - AECOM')
 clean_df = pd.read_csv('london.csv')
+clean_df['wait_time'] = clean_df['DateAndTimeArrived']-clean_df['DateAndTimeMobilised']
+clean_df['wait_time']=clean_df['wait_time'].dt.total_seconds()
 
-####################Visualisation#######################
+
+####################Highest risk of fire#######################
 # Anually
 st.header('Annual Average Number of Fire Incidents for Each Station')
 st.write('The area with highest risk of fire incident is the centre of London. The busiest station is the Soho Fire Station')
@@ -42,7 +45,7 @@ fig = px.density_mapbox(avg_annual_incidents_per_station, lat='lat', lon='lon', 
                         mapbox_style="stamen-toner",hover_name='DeployedFromStation_Name',
                         labels = {'IncidentNumber':'No.of Incidents'},range_color=[0,5000])
 st.plotly_chart(fig)
-# Display the bar chart of the stations with the highest average annual fire incident 
+# Display the bar chart of the stations with the highest average annual fire incident
 top_fig = px.bar(avg_annual_incidents_per_station.sort_values(by='IncidentNumber',ascending=False)[:5],
                 x="IncidentNumber",
                 y="DeployedFromStation_Name",
@@ -71,4 +74,3 @@ hour_fig = px.density_mapbox(avg_hourly_incidents_per_station, lat='lat', lon='l
                         range_color=[avg_hourly_incidents_per_station['IncidentNumber'].min(),avg_hourly_incidents_per_station['IncidentNumber'].max()],
                         animation_frame='HourOfCall')
 st.plotly_chart(hour_fig)
-####################Simulation#######################
