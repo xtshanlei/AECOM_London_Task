@@ -14,7 +14,7 @@ def convert_add(add):
 
 st.title('London Fire Station Project - AECOM')
 clean_df = pd.read_csv('london.csv')
-clean_df['date']= clean_df['DateAndTimeMobilised'].dt.date
+
 ####################Visualisation#######################
 # Anually
 annual_incidents_per_station= clean_df.groupby(['DeployedFromStation_Name','CalYear']).nunique()['IncidentNumber'].reset_index() # Average number of incidents for each station for each year
