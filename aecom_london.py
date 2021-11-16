@@ -13,7 +13,7 @@ locator = GoogleV3(api_key=st.secrets['google_api'])
 def convert_add(add):
   location = locator.geocode(add)
   return location.latitude, location.longitude
-
+####################Data preprocessing#######################
 st.title('London Fire Station Project - AECOM')
 clean_df = pd.read_csv('london.csv')
 clean_df['DateAndTimeMobilised'] = pd.to_datetime(clean_df['DateAndTimeMobilised'],dayfirst=True)
@@ -21,8 +21,11 @@ clean_df['DateAndTimeArrived'] = pd.to_datetime(clean_df['DateAndTimeArrived'],d
 clean_df['date']= clean_df['DateAndTimeMobilised'].dt.date
 clean_df['wait_time'] = clean_df['DateAndTimeArrived']-clean_df['DateAndTimeMobilised']
 clean_df['wait_time']=clean_df['wait_time'].dt.total_seconds()
-
-
+####################Relationship between number of incidents, number of fire engines and average wait time#######################
+station_df = clean_df.groupby(['DeployedFromStation_Name','date']).nunique().reset_index()[['DeployedFromStation_Name','date','IncidentNumber','Resource_Code']]
+station_df['wait_time']=clean_df.groupby(['DeployedFromStation_Name','date']).mean().reset_index()['wait_time']
+relationship_fig = px.scatter_3d(station_df, x="IncidentNumber", y="Resource_Code", z="wait_time",labels={'IncidentNumber':'Number of Incidents','Resource_Code':'Number of Engines','wait_time':'Average Wait Time'},color='DeployedFromStation_Name')
+st.plotly_chart(relationship_fig)
 ####################Highest risk of fire#######################
 # Anually
 st.header('Annual Average Number of Fire Incidents for Each Station')
