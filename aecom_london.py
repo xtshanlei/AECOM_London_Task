@@ -47,7 +47,7 @@ top_fig = px.bar(avg_annual_incidents_per_station.sort_values(by='IncidentNumber
                 x="IncidentNumber",
                 y="DeployedFromStation_Name",
                 orientation='h',
-                label={'IncidentNumber':'Number of Incidents','DeployedFromStation_Name':'Fire Station'})
+                labels={'IncidentNumber':'Number of Incidents','DeployedFromStation_Name':'Fire Station'})
 st.plotly_chart(top_fig)
 # Hourly
 st.header('Hourly Average Number of Fire Incidents for Each Station')
