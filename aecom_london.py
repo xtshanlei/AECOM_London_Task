@@ -16,6 +16,9 @@ def convert_add(add):
 
 st.title('London Fire Station Project - AECOM')
 clean_df = pd.read_csv('london.csv')
+clean_df['DateAndTimeMobilised'] = pd.to_datetime(clean_df['DateAndTimeMobilised'],dayfirst=True)
+clean_df['DateAndTimeArrived'] = pd.to_datetime(clean_df['DateAndTimeArrived'],dayfirst=True)
+clean_df['date']= clean_df['DateAndTimeMobilised'].dt.date
 clean_df['wait_time'] = clean_df['DateAndTimeArrived']-clean_df['DateAndTimeMobilised']
 clean_df['wait_time']=clean_df['wait_time'].dt.total_seconds()
 
