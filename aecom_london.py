@@ -69,5 +69,5 @@ num_engines= st.slider('Please choose the number of fire engines',1,50,1)
 # Run the simulation
 env = simpy.Environment()
 env.process(run_station(env, 2,'Acton'))
-env.run(until=60*24*7)
+env.run(until=100)
 st.write(wait_times)
