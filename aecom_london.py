@@ -10,11 +10,12 @@ import plotly.graph_objects as go
 
 locator = GoogleV3(api_key=st.secrets['google_api'])
 @st.cache
-def convert_add(add):
+def convert_add(add): # Convert fire station names into coordinates using Google API
   location = locator.geocode(add)
   return location.latitude, location.longitude
 ####################Data preprocessing#######################
 st.title('London Fire Station Project - AECOM')
+st.write('by Yulei')
 clean_df = pd.read_csv('london.csv')
 clean_df['DateAndTimeMobilised'] = pd.to_datetime(clean_df['DateAndTimeMobilised'],dayfirst=True)
 clean_df['DateAndTimeArrived'] = pd.to_datetime(clean_df['DateAndTimeArrived'],dayfirst=True)
@@ -25,7 +26,8 @@ station_df = clean_df.groupby(['DeployedFromStation_Name','date']).nunique().res
 station_df['wait_time']=clean_df.groupby(['DeployedFromStation_Name','date']).mean().reset_index()['wait_time']
 ####################Relationship between number of incidents, number of fire engines and average wait time#######################
 st.header('Relationship between number of fire engines, number of fire incidents and average wait time')
-st.write('This section shows the 3-dimension relationship between the number of fire engines,the number of fire incidents and average wait time. Our goal here is to control the average waiting time.')
+st.write('This section shows the 3-dimension relationship between the number of fire engines,the number of fire incidents and average wait time. Our goal here is to control the average waiting time by allocating different number of fire engines.')
+
 st.markdown('The average wait time of all stations is **{} minutes**, the minimun wait time is **{} minute**, and the maximum wait time is **{} minutes**. '.format(int(station_df['wait_time'].mean()/60),int(station_df['wait_time'].min()),int(station_df['wait_time'].max()/60)))
 station_df['wait_time']=clean_df.groupby(['DeployedFromStation_Name','date']).mean().reset_index()['wait_time']
 relationship_fig = px.scatter_3d(station_df, x="IncidentNumber", y="Resource_Code", z="wait_time",labels={'IncidentNumber':'Number of Incidents','Resource_Code':'Number of Engines','wait_time':'Average Wait Time (Seconds)'},color='DeployedFromStation_Name')
@@ -60,7 +62,8 @@ top_fig = px.bar(avg_annual_incidents_per_station.sort_values(by='IncidentNumber
                 x="IncidentNumber",
                 y="DeployedFromStation_Name",
                 orientation='h',
-                labels={'IncidentNumber':'Number of Incidents','DeployedFromStation_Name':'Fire Station'})
+                labels={'IncidentNumber':'Number of Incidents','DeployedFromStation_Name':'Fire Station'},
+                color='orange')
 top_fig.update_layout(yaxis=dict(autorange="reversed"))
 st.plotly_chart(top_fig)
 # Hourly
