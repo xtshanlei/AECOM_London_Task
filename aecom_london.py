@@ -6,6 +6,8 @@ from geopy.geocoders import GoogleV3
 import random
 import simpy
 import plotly.express as px
+import plotly.graph_objects as go
+
 locator = GoogleV3(api_key=st.secrets['google_api'])
 @st.cache
 def convert_add(add):
@@ -40,6 +42,8 @@ fig = px.density_mapbox(avg_annual_incidents_per_station, lat='lat', lon='lon', 
                         mapbox_style="stamen-toner",hover_name='DeployedFromStation_Name',
                         labels = {'IncidentNumber':'No.of Incidents'},range_color=[0,5000])
 st.plotly_chart(fig)
+
+top_fig = px.bar(avg_annual_incidents_per_station, x="IncidentNumber", y="DeployedFromStation_Name", orientation='h')
 
 # Hourly
 st.header('Hourly Average Number of Fire Incidents for Each Station')
