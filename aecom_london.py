@@ -40,7 +40,7 @@ fig = px.density_mapbox(avg_annual_incidents_per_station, lat='lat', lon='lon', 
 st.plotly_chart(fig)
 
 # Hourly
-hour_incidents_per_station = clean_df.groupby(['DeployedFromStation_Name','date','HourOfCall']).count()
+hour_incidents_per_station = clean_df.groupby(['DeployedFromStation_Name','HourOfCall']).count()
 avg_hourly_incidents_per_station = hour_incidents_per_station.groupby(['DeployedFromStation_Name','HourOfCall']).mean()['IncidentNumber'].reset_index()
 hour_lat_list = []
 hour_lon_list = []
