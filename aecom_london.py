@@ -5,6 +5,7 @@ import streamlit as st
 from geopy.geocoders import GoogleV3
 import random
 import simpy
+import plotly.express as px
 locator = GoogleV3(api_key=st.secrets['google_api'])
 @st.cache
 def convert_add(add):
@@ -13,6 +14,31 @@ def convert_add(add):
 
 st.title('London Fire Station Project - AECOM')
 clean_df = pd.read_csv('london.csv')
+
+####################Visualisation#######################
+annual_incidents_per_station= clean_df.groupby(['DeployedFromStation_Name','CalYear']).nunique()['IncidentNumber'].reset_index() # Average number of incidents for each station for each year
+avg_annual_incidents_per_station = annual_incidents_per_station.groupby(['DeployedFromStation_Name']).mean()['IncidentNumber'].reset_index() # Average number of incidents for each station
+
+#Convert fire station into coordinates using Google API
+lat_lst = []
+lon_lst = []
+for add in avg_annual_incidents_per_station['DeployedFromStation_Name']:
+  try: lat,lon = convert_add(add+' fire station, london, uk')
+  except: print(add)
+  lat_lst.append(lat)
+  lon_lst.append(lon)
+avg_annual_incidents_per_station['lat']= lat_lst
+avg_annual_incidents_per_station['lon']= lon_lst
+
+
+
+fig = px.density_mapbox(avg_annual_incidents_per_station, lat='lat', lon='lon', z='IncidentNumber', radius=40,
+                        center=dict(lat=convert_add('London')[0], lon=convert_add('London')[1]), zoom=8,
+                        mapbox_style="stamen-toner",hover_name='DeployedFromStation_Name',
+                        labels = {'IncidentNumber':'No.of Incidents'},range_color=[0,5000])
+st.plotly_chart(fig)
+
+
 
 
 ####################Simulation#######################
