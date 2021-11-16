@@ -42,7 +42,7 @@ def Dealing_with_Fire(env, fire_incident, station): # Dealing with the fire inci
     yield env.process(station.mobilisation(fire_incident))
   # Fire turned out
   wait_times.append(float(env.now - occur_time))
-  
+
 
 def run_station(env, num_engines, station_name): # Define the station running
   station = Station(env, num_engines, station_name)
@@ -70,3 +70,4 @@ num_engines= st.slider('Please choose the number of fire engines',1,50,1)
 env = simpy.Environment()
 env.process(run_station(env, num_engines,station))
 env.run(until=60*24*7)
+st.write(wait_times)
