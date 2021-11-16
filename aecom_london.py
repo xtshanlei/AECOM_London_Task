@@ -22,7 +22,9 @@ clean_df['date']= clean_df['DateAndTimeMobilised'].dt.date
 clean_df['wait_time'] = clean_df['DateAndTimeArrived']-clean_df['DateAndTimeMobilised']
 clean_df['wait_time']=clean_df['wait_time'].dt.total_seconds()
 ####################Relationship between number of incidents, number of fire engines and average wait time#######################
-station_df = clean_df.groupby(['DeployedFromStation_Name','date']).nunique().reset_index()[['DeployedFromStation_Name','date','IncidentNumber','Resource_Code']]
+st.header('Relationship between number of fire engines, number of fire incidents and average wait time')
+st.write('This section shows the 3-dimension relationship between the number of fire engines,the number of fire incidents and average wait time. Our goal here is to control the average waiting time.')
+st.markdown('The average wait time of all stations is **{}**, the minimun wait time is **{}**, and the maximum wait time is **{}**. '.format(int(station_df['wait_time'].mean()),int(station_df['wait_time'].min()),int(station_df['wait_time'].max())))
 station_df['wait_time']=clean_df.groupby(['DeployedFromStation_Name','date']).mean().reset_index()['wait_time']
 relationship_fig = px.scatter_3d(station_df, x="IncidentNumber", y="Resource_Code", z="wait_time",labels={'IncidentNumber':'Number of Incidents','Resource_Code':'Number of Engines','wait_time':'Average Wait Time'},color='DeployedFromStation_Name')
 st.plotly_chart(relationship_fig)
