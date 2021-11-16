@@ -44,7 +44,7 @@ fig = px.density_mapbox(avg_annual_incidents_per_station, lat='lat', lon='lon', 
 st.plotly_chart(fig)
 
 top_fig = px.bar(avg_annual_incidents_per_station, x="IncidentNumber", y="DeployedFromStation_Name", orientation='h')
-
+st.plotly_chart(top_fig)
 # Hourly
 st.header('Hourly Average Number of Fire Incidents for Each Station')
 st.write('The figure shows the average fire incidents each hour for each station. The riskiest time of fire incidents during a day is evening between 17:00 and 19:00.  Hit the play button below or slide to choose the hour to explore more.')
