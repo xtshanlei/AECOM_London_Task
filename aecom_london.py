@@ -11,7 +11,7 @@ def convert_add(add):
 
 st.title('London Fire Station Project - AECOM')
 clean_df = pd.read_csv('london.csv')
-st.write(df['IncidentNumber'][0])
+
 
 ####################Simulation#######################
 def generate_attendence_time(station): # Generate random attendence time based on historical data
