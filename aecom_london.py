@@ -63,7 +63,6 @@ def get_average_wait_time(wait_times): # Calculate average wait time
 
 
 wait_times = []
-random.seed(42)
 station = st.selectbox('Please select the fire station you want to simulate',(clean_df['DeployedFromStation_Name'].unique()))
 num_engines= st.slider('Please choose the number of fire engines',1,50,1)
 # Run the simulation
