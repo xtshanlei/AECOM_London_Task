@@ -63,7 +63,7 @@ top_fig = px.bar(avg_annual_incidents_per_station.sort_values(by='IncidentNumber
                 y="DeployedFromStation_Name",
                 orientation='h',
                 labels={'IncidentNumber':'Number of Incidents','DeployedFromStation_Name':'Fire Station'},
-                color='orange')
+                color='IncidentNumber')
 top_fig.update_layout(yaxis=dict(autorange="reversed"))
 st.plotly_chart(top_fig)
 # Hourly
