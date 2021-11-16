@@ -36,13 +36,13 @@ avg_annual_incidents_per_station['lat']= lat_lst
 avg_annual_incidents_per_station['lon']= lon_lst
 
 
-
+# Display the map chart using Plotly
 fig = px.density_mapbox(avg_annual_incidents_per_station, lat='lat', lon='lon', z='IncidentNumber', radius=40,
                         center=dict(lat=convert_add('London')[0], lon=convert_add('London')[1]), zoom=8,
                         mapbox_style="stamen-toner",hover_name='DeployedFromStation_Name',
                         labels = {'IncidentNumber':'No.of Incidents'},range_color=[0,5000])
 st.plotly_chart(fig)
-
+# Display the bar chart of the stations with the highest average annual fire incident 
 top_fig = px.bar(avg_annual_incidents_per_station.sort_values(by='IncidentNumber',ascending=False)[:5],
                 x="IncidentNumber",
                 y="DeployedFromStation_Name",
